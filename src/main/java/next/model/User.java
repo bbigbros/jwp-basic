@@ -29,6 +29,21 @@ public class User {
         return email;
     }
 
+    public boolean chkPassword (String password) {
+        if (password == null) return false;
+
+        return this.password.equals(password);
+    }
+
+    public void updateUser(User u) {
+        this.password = u.password;
+        this.name     = u.name;
+        this.email    = u.email;
+    }
+
+
+
+
     @Override
     public int hashCode() {
         final int prime = 31;
