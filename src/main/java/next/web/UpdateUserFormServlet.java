@@ -2,7 +2,6 @@ package next.web;
 
 import core.db.DataBase;
 import next.model.User;
-import org.h2.engine.Database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

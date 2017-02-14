@@ -22,6 +22,7 @@ public class CreateUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        log.debug("Create Post in CreateServlet");
         User user = new User(
                 req.getParameter("userId"),
                 req.getParameter("password"),
@@ -29,6 +30,6 @@ public class CreateUserServlet extends HttpServlet {
                 req.getParameter("email"));
         log.debug("user : {}", user);
         DataBase.addUser(user);
-        resp.sendRedirect("/user/list");
+        resp.sendRedirect("/user/list.jsp");
     }
 }
