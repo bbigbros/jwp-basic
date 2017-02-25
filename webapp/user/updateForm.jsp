@@ -15,7 +15,7 @@
             <form name="question" method="post" action="/users/update">
                 <input type="hidden" name="userId" value="${user.userId}" />
                 <div class="form-group">
-                    <label>사용자 아이디</label>
+                    <label>사용자 아이디</label><br/>
                     ${user.userId}
                 </div>
                 <div class="form-group">
