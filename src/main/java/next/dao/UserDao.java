@@ -90,6 +90,6 @@ public class UserDao {
             }
         };
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-        return (User)sjt.findByUserId(sql);
+        return (User)sjt.query(sql);
     }
 }

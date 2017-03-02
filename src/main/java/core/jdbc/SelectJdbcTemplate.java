@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * Created by stripes on 2017. 3. 2..
  */
 abstract public class SelectJdbcTemplate {
-    public Object findByUserId(String sql) throws SQLException {
+    public Object query(String sql) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
