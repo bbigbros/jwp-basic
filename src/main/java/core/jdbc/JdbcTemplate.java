@@ -1,8 +1,5 @@
 package core.jdbc;
 
-import next.dao.UserDao;
-import next.model.User;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,7 +28,7 @@ public class JdbcTemplate {
             }
         }
     }
-    public Object query(String sql, PreparedStatementSetter pss, RowMapper rm) throws SQLException {
+    public <T> T query(String sql, PreparedStatementSetter pss, RowMapper<T> rm) throws SQLException {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

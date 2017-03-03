@@ -80,9 +80,9 @@ public class UserDao {
                 pstmt.setString(1, userId);
             }
         };
-        RowMapper rm = new RowMapper() {
+        RowMapper<User> rm = new RowMapper<User>() {
             @Override
-            public Object mapRow(ResultSet rs) throws SQLException {
+            public User mapRow(ResultSet rs) throws SQLException {
                 return new User(
                         rs.getString("userId"),
                         rs.getString("password"),
@@ -92,6 +92,6 @@ public class UserDao {
         };
         JdbcTemplate jt = new JdbcTemplate();
         String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-        return (User)jt.query(sql, pss, rm);
+        return jt.query(sql, pss, rm);
     }
 }
