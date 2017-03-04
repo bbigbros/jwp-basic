@@ -1,5 +1,8 @@
 package core.jdbc;
 
+import org.springframework.test.context.jdbc.Sql;
+
+import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,23 +14,14 @@ import java.util.List;
  * Created by stripes on 2017. 3. 2..
  */
 public class JdbcTemplate {
-    public void update(String sql, PreparedStatementSetter pss) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(sql);
+    public void update(String sql, PreparedStatementSetter pss) throws DataAccessException {
+        try (Connection conn = ConnectionManager.getConnection();
+                    PreparedStatement pstmt = conn.prepareStatement((sql))) {
             pss.setValues(pstmt);
-
             pstmt.executeUpdate();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
 
-            if (con != null) {
-                con.close();
-            }
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
         }
     }
 
@@ -47,13 +41,9 @@ public class JdbcTemplate {
         return query(sql, rm, createPreparedStatementSetter(params));
     }
 
-    public <T> List<T> list(String sql, RowMapper<T> rm, PreparedStatementSetter pss) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
+    public <T> List<T> list(String sql, RowMapper<T> rm, PreparedStatementSetter pss) {
         ResultSet rs = null;
-        try {
-            con = ConnectionManager.getConnection();
-            pstmt = con.prepareStatement(sql);
+        try (Connection conn=ConnectionManager.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pss.setValues(pstmt);
             rs = pstmt.executeQuery();
 
@@ -62,15 +52,15 @@ public class JdbcTemplate {
                 list.add(rm.mapRow(rs));
             }
             return list;
+        } catch (SQLException e) {
+            throw new DataAccessException(e);
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (con != null) {
-                con.close();
+            try {
+                if (rs != null) {
+                    rs.close();
+                }
+            }catch (SQLException e) {
+                throw new DataAccessException(e);
             }
         }
     }
