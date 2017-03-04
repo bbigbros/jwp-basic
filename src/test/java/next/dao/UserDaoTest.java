@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
@@ -14,6 +16,8 @@ import core.jdbc.ConnectionManager;
 import next.model.User;
 
 public class UserDaoTest {
+    private static final Logger logger = LoggerFactory.getLogger(UserDaoTest.class);
+
     @Before
     public void setup() {
         ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -40,5 +44,6 @@ public class UserDaoTest {
         UserDao userDao = new UserDao();
         List<User> users = userDao.findAll();
         assertEquals(1, users.size());
+        logger.debug("findAll Users : {}", users);
     }
 }
